@@ -70,20 +70,21 @@ if (filename == undefined) {
 
     // We're only importing multer here, since we don't need it when downloading
     const multer = require('multer')
-    const uploadedFiles = {}
     const storage = multer({ storage : multer.diskStorage({
         destination: (req, file, cb) => { cb(null, '.') },
+
+        // This is as readable as my future
         filename: (req, file, cb) => {
             fs.exists(file.originalname, (exists) => {
-                /* This part could probably use a rewrite, since
-                 * it assumes that there weren't already two files of the same name
-                 */
-
                 if (exists) {
-                    uploadedFiles[file.originalname] += 1
-                    cb( null, file.originalname + "_" + (uploadedFiles[file.originalname] - 1).toString(10) )
+                    (function recursiveExist(l = 0) {
+                        const n = file.originalname + "." + l.toString(10)
+                        fs.exists(n, function (exists) {
+                            if (exists) { recursiveExist(l + 1) }
+                            else { cb( null, n ) }
+                        })
+                    })()
                 } else {
-                    uploadedFiles[file.originalname] += 1
                     cb( null, file.originalname )
                 }
             })
@@ -97,7 +98,11 @@ if (filename == undefined) {
         if (req.file == undefined) {
             res.status(400).send(failureHTML)
         } else {
-            console.log("\x1b[92mReceived file\x1b[39m \x1b[96m'\x1b[1m" + req.file.originalname + "\x1b[22m'\x1b[39m")
+            if (req.file.originalname == req.file.filename) {
+                console.log("\x1b[92mReceived file\x1b[39m \x1b[96m'\x1b[1m" + req.file.originalname + "\x1b[22m'\x1b[39m")
+            } else {
+                console.log("\x1b[92mReceived file\x1b[39m \x1b[96m'\x1b[1m" + req.file.originalname + "\x1b[22m'\x1b[39m\x1b[92m, saved as\x1b[39m \x1b[96m'\x1b[1m" + req.file.filename + "\x1b[22m'\x1b[39m")
+            }
             uploadAmount += 1
             res.status(200).send(successHTML)
         }
