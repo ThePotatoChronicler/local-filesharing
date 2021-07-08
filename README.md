@@ -11,5 +11,5 @@ Clone this repository, and run `npm install` to install depencencies
 ## Usage
 Note: Assuming you're in the program's directory
 
-`node .` : Awaits uploads
-`node . <filename>` : Awaits download
+- `node .` : Awaits uploads
+- `node . <filename>` : Awaits download
