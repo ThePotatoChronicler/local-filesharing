@@ -13,3 +13,9 @@ Note: Assuming you're in the program's directory
 
 - `node .` : Awaits uploads
 - `node . <filename>` : Awaits download
+
+## Alias
+The script can be launched from anywhere,
+allowing uploads from and to the current folder
+
+`alias fileshare='node <server directory>'`
