@@ -1,7 +1,7 @@
 {
-  "name": "napstaserver",
+  "name": "local-filesharing",
   "version": "1.0.0",
-  "description": "Runs a simple express server that lets people upload and download shit, whatever, gay",
+  "description": "Runs a simple express server that allows you to share files on the local network between devices easily",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "PotatoChronicler",
-  "license": "Unlicense",
+  "license": "GPL-3.0",
   "dependencies": {
     "express": "^4.17.1",
     "ip": "^1.1.5",
